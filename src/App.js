@@ -1,11 +1,12 @@
 import logo from './logo.svg';
 import './App.css';
 import Counter from "./Counter"
-import { createStore } from "redux";
+import { applyMiddleware, createStore } from 'redux';
+import logger from 'redux-logger'
 import reducers from "./reducers/reducers";
 import { Provider } from 'react-redux';
 
-const store = createStore(reducers);
+const store = createStore(reducers, applyMiddleware(logger));
 
 
 
@@ -18,3 +19,4 @@ function App() {
 }
 
 export default App;
+
