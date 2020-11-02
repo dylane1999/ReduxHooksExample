@@ -1,6 +1,9 @@
 import React, { Component } from "react";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
+import { ADD_ONE, MINUS_ONE } from "./actions";
+import { updateNum } from "./actions/index";
+import { connect } from "react-redux";
 
 const containerStyle = {
   display: "flex",
@@ -12,24 +15,26 @@ const buttonStyle = {
   height: "40px",
 };
 
-const Counter = () => {
-  const number = useSelector((state) => state.number);
-  const dispatch = useDispatch();
+const Counter = (props) => {
 
   return (
     <div className="App">
       <header className="App-header">
-        <h1>{number}</h1>
+        <h1>{props.number}</h1>
         <div style={containerStyle}>
           <button
-            onClick={() => dispatch({ type: "MINUS_ONE" })}
+            onClick={() => {
+              props.updateNum(props.number - 1)
+            }}
             type="button"
             style={buttonStyle}
           >
             -
           </button>
           <button
-            onClick={() => dispatch({ type: "ADD_ONE" })}
+            onClick={() => {
+              props.updateNum(props.number + 1)
+            }}
             type="button"
             style={buttonStyle}
           >
@@ -41,4 +46,10 @@ const Counter = () => {
   );
 };
 
-export default Counter;
+function mapStatetoProps(state) {
+  return {
+    number: state.number,
+  };
+}
+
+export default connect(mapStatetoProps, { updateNum })(Counter);
